@@ -6,39 +6,20 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/14 09:10:04 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/21 09:14:03 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include "philosopher.h"
 
-void	validate_inputs()
-{
-	// validate inputs
-		// check if everything is only digits
-		// check overflows
-		// number of philo's not smaller than 2
-		// time to die not smaller than 0
-		// time to eat not smaller than 0
-		// time to sleap not smaller than 0
-		// times to eat nog smaller than 0 (only when its given)
-	
-}
-
-void	create_philo()
-{
-	// create philo's
-		// create struct per philo which holds all the times and its ID (see philo.h)
-		// create one struct with all the arguments because a threaded function can only hold one argument
-		// create one array with all the above named structs to iterate over
-}
-
-void	create_threads()
+int	create_threads()
 {
 	// create threads
 		// create a thread for every philo and safe this thread to the struct
 }
 
-void	eat_function()
+int	eat_function()
 {
 	// start eating
 		// pass to the start eating via threadfunction
@@ -51,37 +32,34 @@ void	eat_function()
 		// drop forks
 }
 
-void	sleep_function()
+int	sleep_function()
 {
 	// start sleeping
 		// sleep as long as the time suggests
 }
 
-void	think_function()
+int	think_function()
 {
 	// start thinking
 }
 
 // change this to command line args in future
-void 	philo_one(int number_of_philosopers, int time_to_die, int time_to_eat, int time_to_sleap, int number_of_times_each_philosoper_must_eat)
+int main(int argc, char **argv)
 {
-	validate_inputs();
-	create_philo();
-	create_threads();
-	eat_function();
-	sleep_function();
-	think_function();
-	
-
-}
-
-int main()
-{
-	int number_of_philosopers;
-	int time_to_die;
-	int time_to_eat;
-	int time_to_sleap;
-	int number_of_times_each_philosoper_must_eat;
-	
-	philo_one(number_of_philosopers, time_to_die, time_to_eat, time_to_sleap, number_of_times_each_philosoper_must_eat);
+	t_function_vars *vars;
+	t_philo			*philo;
+	// check the inputs
+	if (validate_inputs(argc, argv, vars))
+		return(0);
+	// set up the mallocing of the philo's
+	if (create_philo(vars, philo))
+		return(0); // something went wrong during malloc 
+	// create and activate the forks
+	if (create_forks(vars))
+		// something went wrong while creating threads
+	if (init_philo(&philo))
+		//
+	if (start_threads())
+		
+	if (check_philo_status())
 }
