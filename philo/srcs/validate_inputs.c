@@ -6,7 +6,7 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:07:36 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 08:08:08 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/21 13:04:11 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void 	set_philos(t_function_vars *vars, char **input, int argc)
 		vars->a_eat = ft_atoi(input[5]);
 	else
 		vars->a_eat = -1;
-	
-	// here start timing will implement this later one
+	vars->start_time = gettime();
 }
 
 int		validate_inputs(int argc , char **input, t_function_vars *vars)
@@ -51,4 +50,5 @@ int		validate_inputs(int argc , char **input, t_function_vars *vars)
 		ft_putstr_fd("Error: not enough philo's where given\n", 2);
 		return (1);
 	}
+
 }

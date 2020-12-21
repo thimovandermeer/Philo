@@ -6,12 +6,13 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/14 09:22:05 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 07:49:46 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/21 12:51:03 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 #include <stddef.h>
+#include <sys/time.h>
 
 int		ft_isdigit(int c)
 {
@@ -70,5 +71,34 @@ void	ft_putstr_fd(char *s, int fd)
 	{
 		ft_putchar_fd(*s, fd);
 		s++;
+	}
+}
+
+// get time functie bouwen
+unsigned long gettime(void)
+{
+	struct timeval current_time;
+	gettimeofday(&current_time, NULL);
+	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 10000));
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	if (n == -2147483648)
+	{
+		ft_putstr_fd("-2147483648", fd);
+		return ;
+	}
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n = -n;
+	}
+	if (n >= 0 && n < 10)
+		ft_putchar_fd(n + '0', fd);
+	else
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
 	}
 }
