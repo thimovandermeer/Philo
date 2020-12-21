@@ -6,13 +6,13 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 14:08:16 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/21 14:37:31 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	write_lock(t_function_vars *vars, unsigned int id, const char *str)
+void	write_lock(t_function_vars *vars, unsigned int id, char *str)
 {
 	unsigned long time;
 
@@ -30,20 +30,20 @@ void	write_lock(t_function_vars *vars, unsigned int id, const char *str)
 void	eat_lock(t_philo *philo, pthread_mutex_t *left_fork,
 		pthread_mutex_t *right_fork, unsigned int id)
 {
-	pthread_mutex_lock(&left_fork);
+	pthread_mutex_lock(left_fork);
 	write_lock(philo->vars, id, "Picked up left fork");
-	pthread_mutex_lock(&right_fork);
+	pthread_mutex_lock(right_fork);
 	write_lock(philo->vars, id, "Picked up right fork");
 	philo->last_eaten = gettime();
 	write_lock(philo->vars, id, "is eating");
 	waitingfunction(philo->vars->t_sleep);
-	pthread_mutex_unlock(&left_fork);
+	pthread_mutex_unlock(left_fork);
 	write_lock(philo->vars, id, "Dropped left fork");
-	pthread_mutex_unlock(&right_fork);
+	pthread_mutex_unlock(right_fork);
 	write_lock(philo->vars, id, "Dropped right fork");
 }
 
-void	sleap_lock(t_philo *philo, unsigned int id)
+void	sleep_lock(t_philo *philo, unsigned int id)
 {
 	write_lock(philo->vars, id, "is sleeping");
 	waitingfunction(philo->vars->t_sleep);
@@ -58,13 +58,18 @@ void	waitingfunction(unsigned int waitingtime)
 		usleep(200);
 }
 
-void	philo_loop(void *phil_ptr)
+void	death_lock()
+{
+	
+}
+
+void	*philo_loop(void *phil_ptr)
 {
 	unsigned int	id;
 	t_philo			*philo;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t	*right_fork;
-	int				i;
+	unsigned int	i;
 
 	philo = (t_philo*)phil_ptr;
 	id = philo->philo_num;
@@ -80,4 +85,5 @@ void	philo_loop(void *phil_ptr)
 		sleep_lock(philo, id);
 		death_lock();
 	}
+	return (0);
 }

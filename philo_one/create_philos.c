@@ -6,7 +6,7 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 14:10:17 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/21 14:31:48 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int		create_philo(t_function_vars *vars, t_philo **philos)
 		ft_putstr_fd("something went wrong during mallocing philo's\n", 2);
 		return (1);
 	}
+	return (0);
 }
 
-int		create_forks(t_function_vars *vars, t_philo *philos)
+int		create_forks(t_function_vars *vars)
 {
-	int i;
+	unsigned int i;
 
 	i = 0;
 	while (i < vars->n_philos)
@@ -58,7 +59,7 @@ int		create_forks(t_function_vars *vars, t_philo *philos)
 
 int		init_philo(t_function_vars *vars, t_philo *philos)
 {
-	int i;
+	unsigned int i;
 
 	i = 0;
 	while (i < vars->n_philos)
@@ -70,17 +71,18 @@ int		init_philo(t_function_vars *vars, t_philo *philos)
 		// here we need to have some time management as well
 		i++;
 	}
+	return (0);
 }
 
 int		start_threads(t_function_vars *vars, t_philo *philos)
 {
-	int		i;
-	int		err;
+	unsigned int		i;
+	int					err;
 
 	i = 0;
 	while (i < vars->n_philos)
 	{
-		err = pthread_create(&(philos[i].thread), NULL, philo_loop, &philos);
+		err = pthread_create(&philos[i].thread, NULL, philo_loop, &philos[i]);
 		if (err != 0)
 		{
 			ft_putstr_fd("something went wrong when creating threads\n", 2);

@@ -6,12 +6,17 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 14:06:36 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/21 14:33:02 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "philosopher.h"
+
+int		check_philo_status()
+{
+	return(0);
+}
 
 int	main(int argc, char **argv)
 {
@@ -20,9 +25,9 @@ int	main(int argc, char **argv)
 
 	if (validate_inputs(argc, argv, &vars))
 		return (0);
-	if (create_philo(&vars, philos))
+	if (create_philo(&vars, &philos))
 		return (0);
-	if (create_forks(&vars, philos))
+	if (create_forks(&vars))
 		return (0);
 	if (init_philo(&vars, philos))
 		return (0);
