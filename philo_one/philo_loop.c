@@ -6,17 +6,18 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 14:37:31 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/22 12:40:15 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "philosophers.h"
+#include <stdio.h>
 
 void	write_lock(t_function_vars *vars, unsigned int id, char *str)
 {
 	unsigned long time;
 
-	time = gettime();
+	time = gettime() - vars->start_time;
 	pthread_mutex_lock(&vars->write_lock);
 	ft_putnbr_fd(time, 2);
 	ft_putstr_fd(" [", 2);
@@ -35,6 +36,7 @@ void	eat_lock(t_philo *philo, pthread_mutex_t *left_fork,
 	pthread_mutex_lock(right_fork);
 	write_lock(philo->vars, id, "Picked up right fork");
 	philo->last_eaten = gettime();
+	philo->times_eaten++;
 	write_lock(philo->vars, id, "is eating");
 	waitingfunction(philo->vars->t_sleep);
 	pthread_mutex_unlock(left_fork);
@@ -54,36 +56,46 @@ void	waitingfunction(unsigned int waitingtime)
 	unsigned long starttime;
 
 	starttime = gettime();
-	while (gettime() - starttime < waitingtime)
+	while ((gettime() - starttime) < waitingtime)
 		usleep(200);
 }
 
-void	death_lock()
+int		death_lock(t_philo *philo)
 {
-	
+	pthread_mutex_lock(&philo->vars->dead_lock);
+	if (philo->vars->isdead)
+	{
+		pthread_mutex_unlock(&philo->vars->dead_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->vars->dead_lock);
+	return (0);
 }
 
 void	*philo_loop(void *phil_ptr)
 {
-	unsigned int	id;
+	int	id;
 	t_philo			*philo;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t	*right_fork;
-	unsigned int	i;
+	int	i;
 
 	philo = (t_philo*)phil_ptr;
 	id = philo->philo_num;
 	left_fork = &philo->vars->forks[id];
-	right_fork = &philo->vars->forks[id + 1];
+	right_fork = &philo->vars->forks[(id + 1) % philo->vars->n_philos];
 	if (id % 2)
 		usleep(200);
 	i = 0;
-	while (i < philo->vars->a_eat)
+	while (i != philo->vars->a_eat)
 	{
-		write_lock(philo->vars, id, "is thinking");
+		if (i)
+			write_lock(philo->vars, id, "is thinking");
 		eat_lock(philo, left_fork, right_fork, id);
 		sleep_lock(philo, id);
-		death_lock();
+		if (death_lock(philo))
+			return (NULL);
+		i++;
 	}
-	return (0);
+	return (NULL);
 }

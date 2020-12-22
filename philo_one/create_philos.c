@@ -6,16 +6,16 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 14:31:48 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/22 12:37:47 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "philosophers.h"
 
 int		create_philo(t_function_vars *vars, t_philo **philos)
 {
-	vars->forks = malloc(sizeof(pthread_mutex_t) * vars->n_philos);
-	if (!vars->forks)
+	(*vars).forks = malloc(sizeof(pthread_mutex_t) * vars->n_philos);
+	if (!(*vars).forks)
 	{
 		ft_putstr_fd("Something went wrong during malloc\n", 2);
 		return (1);
@@ -31,7 +31,7 @@ int		create_philo(t_function_vars *vars, t_philo **philos)
 
 int		create_forks(t_function_vars *vars)
 {
-	unsigned int i;
+	int i;
 
 	i = 0;
 	while (i < vars->n_philos)
@@ -53,13 +53,18 @@ int		create_forks(t_function_vars *vars)
 		pthread_mutex_destroy(&(*vars).dead_lock);
 		return (1);
 	}
-	vars->isdead = false;
+	if (pthread_mutex_init(&(*vars).time_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&(*vars).time_lock);
+		return (1);
+	}
+	(*vars).isdead = false;
 	return (0);
 }
 
 int		init_philo(t_function_vars *vars, t_philo *philos)
 {
-	unsigned int i;
+	int i;
 
 	i = 0;
 	while (i < vars->n_philos)
@@ -68,24 +73,30 @@ int		init_philo(t_function_vars *vars, t_philo *philos)
 		philos[i].last_eaten = vars->start_time;
 		philos[i].times_eaten = 0;
 		philos[i].vars = vars;
-		// here we need to have some time management as well
 		i++;
 	}
 	return (0);
 }
 
+void	jointhreads(t_philo *philos, int i)
+{
+	while (i)
+	{
+		i--;
+		pthread_join(philos[i].thread, NULL);
+	}
+}
+
 int		start_threads(t_function_vars *vars, t_philo *philos)
 {
-	unsigned int		i;
-	int					err;
+	int		i;
 
 	i = 0;
 	while (i < vars->n_philos)
 	{
-		err = pthread_create(&philos[i].thread, NULL, philo_loop, &philos[i]);
-		if (err != 0)
+		if (pthread_create(&philos[i].thread, NULL, philo_loop, &philos[i]))
 		{
-			ft_putstr_fd("something went wrong when creating threads\n", 2);
+			jointhreads(philos, i);
 			return (1);
 		}
 		i++;

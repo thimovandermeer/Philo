@@ -6,11 +6,11 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/14 09:22:05 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 12:51:03 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/22 13:48:15 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "philosophers.h"
 #include <stddef.h>
 #include <sys/time.h>
 
@@ -74,21 +74,16 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-// get time functie bouwen
-unsigned long gettime(void)
+long	gettime(void)
 {
 	struct timeval current_time;
+
 	gettimeofday(&current_time, NULL);
-	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 10000));
+	return (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 }
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(unsigned long n, int fd)
 {
-	if (n == -2147483648)
-	{
-		ft_putstr_fd("-2147483648", fd);
-		return ;
-	}
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);

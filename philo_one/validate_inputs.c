@@ -6,23 +6,23 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:07:36 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/21 14:38:33 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/22 12:44:38 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "philosophers.h"
 
 void	set_philos(t_function_vars *vars, char **input, int argc)
 {
-	vars->n_philos = ft_atoi(input[1]);
-	vars->t_die = ft_atoi(input[2]);
-	vars->t_eat = ft_atoi(input[3]);
-	vars->t_sleep = ft_atoi(input[4]);
+	(*vars).n_philos = ft_atoi(input[1]);
+	(*vars).t_die = ft_atoi(input[2]);
+	(*vars).t_eat = ft_atoi(input[3]);
+	(*vars).t_sleep = ft_atoi(input[4]);
 	if (argc == 6)
-		vars->a_eat = ft_atoi(input[5]);
+		(*vars).a_eat = ft_atoi(input[5]);
 	else
-		vars->a_eat = -1;
-	vars->start_time = gettime();
+		(*vars).a_eat = -1;
+	(*vars).start_time = gettime();
 }
 
 int		validate_inputs(int argc, char **input, t_function_vars *vars)
@@ -36,8 +36,10 @@ int		validate_inputs(int argc, char **input, t_function_vars *vars)
 		return (1);
 	}
 	set_philos(vars, input, argc);
-	if (!vars->n_philos || !vars->t_die || !vars->t_eat || !vars->t_sleep)
+	printf("n_philos = %i\n", vars->t_sleep);
+	if (vars->n_philos < 0 || vars->t_die < 0 || vars->t_eat < 0 || vars->t_sleep < 0)
 	{
+		printf("kom ik hier?\n");
 		ft_putstr_fd("Error: please give positive inputs\n", 2);
 		return (1);
 	}
