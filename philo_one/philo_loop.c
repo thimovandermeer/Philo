@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   philo_loop.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
+/*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/22 12:40:15 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/23 10:53:13 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	write_lock(t_function_vars *vars, unsigned int id, char *str)
 
 	time = gettime() - vars->start_time;
 	pthread_mutex_lock(&vars->write_lock);
+	if (vars->isdead == true)
+	{
+		pthread_mutex_unlock(&vars->write_lock);
+		return ;
+	}
 	ft_putnbr_fd(time, 2);
 	ft_putstr_fd(" [", 2);
 	ft_putnbr_fd(id, 2);
@@ -74,11 +79,11 @@ int		death_lock(t_philo *philo)
 
 void	*philo_loop(void *phil_ptr)
 {
-	int	id;
+	int				id;
 	t_philo			*philo;
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t	*right_fork;
-	int	i;
+	int				i;
 
 	philo = (t_philo*)phil_ptr;
 	id = philo->philo_num;

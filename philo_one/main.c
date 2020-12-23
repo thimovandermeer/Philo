@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
+/*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/22 13:50:55 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/23 10:49:48 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,15 @@ int		check_philo_status(t_philo *philos, t_function_vars *vars)
 		pthread_mutex_lock(&philos[i].vars->time_lock);
 		if (gettime() - philos[i].last_eaten > philos[i].vars->t_die)
 		{
-			write_lock(philos[i].vars, i, "Has died");
-			(*vars).isdead = true;
-			pthread_mutex_unlock(&philos[i].vars->time_lock);
-			stop = true;
+			if (philos[i].times_eaten != vars->a_eat)
+			{
+				write_lock(philos[i].vars, i, "Has died");
+				printf("isdead before = %d", (*vars).isdead);
+				(*vars).isdead = true;
+				printf("isdead after = %d", (*vars).isdead);
+				pthread_mutex_unlock(&philos[i].vars->time_lock);
+				stop = true;
+			}
 			break ;
 		}
 		pthread_mutex_unlock(&philos[i].vars->time_lock);
@@ -40,7 +45,7 @@ int		check_philo_status(t_philo *philos, t_function_vars *vars)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_function_vars vars;
 	t_philo			*philos;
@@ -57,5 +62,9 @@ int	main(int argc, char **argv)
 		return (1);
 	while (!check_philo_status(philos, &vars))
 		continue;
+	jointhreads(philos, vars.n_philos);
 	return (0);
 }
+
+
+// so a bunch of things go wrong, the most important is the fact that it goes on after dying

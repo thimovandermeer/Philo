@@ -3,10 +3,10 @@
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
-#    By: jbennink <jbennink@student.codam.nl>         +#+                      #
+#    By: thvan-de <thvan-de@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/11/16 09:21:05 by jbennink      #+#    #+#                  #
-#    Updated: 2020/12/21 13:57:06 by thimovander   ########   odam.nl          #
+#    Updated: 2020/12/23 10:57:16 by thvan-de      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCS = 	create_philos.c \
 		main.c \
 		philo_loop.c \
 		utils.c \
-		validate_inputs.c
+		validate_inputs.c \
+		free_functions.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -44,3 +45,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+#  -fsanitize=thread

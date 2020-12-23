@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   philosophers.h                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
+/*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/14 08:41:27 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/22 13:49:22 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/23 07:26:44 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 
 typedef struct	s_function_vars
 {
-	int		n_philos;
-	int		t_eat;
-	int		t_sleep;
-	long	t_die;
-	int		a_eat;
+	int					n_philos;
+	int					t_eat;
+	int					t_sleep;
+	long				t_die;
+	int					a_eat;
 	unsigned long		start_time;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		time_lock;
@@ -82,4 +82,15 @@ void			eat_lock(t_philo *philo, pthread_mutex_t *left_fork,
 void			sleep_lock(t_philo *philo, unsigned int id);
 void			*philo_loop(void *phil_ptr);
 void			waitingfunction(unsigned int waitingtime);
+
+/*
+* Free functions
+*/
+
+void			free_dead_lock(t_function_vars *vars);
+void			free_write_lock(t_function_vars *vars);
+void			free_time_lock(t_function_vars *vars);
+void			free_forks(t_function_vars *vars);
+void			free_philos(t_philo *philos);
+
 #endif

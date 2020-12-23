@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   create_philos.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
+/*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/22 12:37:47 by thimovander   ########   odam.nl         */
+/*   Updated: 2020/12/23 07:34:39 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		create_forks(t_function_vars *vars)
 	{
 		if (pthread_mutex_init(&(*vars).forks[i], NULL) != 0)
 		{
-			// free forks I suppose
+			free_forks(vars);
 			return (1);
 		}
 		i++;
@@ -85,6 +85,7 @@ void	jointhreads(t_philo *philos, int i)
 		i--;
 		pthread_join(philos[i].thread, NULL);
 	}
+	free_time_lock(philos->vars);
 }
 
 int		start_threads(t_function_vars *vars, t_philo *philos)
