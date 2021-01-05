@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/22 14:11:19 by thvan-de      #+#    #+#                 */
-/*   Updated: 2020/12/23 10:56:41 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 08:10:25 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ void	free_write_lock(t_function_vars *vars)
 	pthread_mutex_destroy(&vars->write_lock);
 }
 
-void	free_time_lock(t_function_vars *vars)
+void	free_time_lock(t_function_vars *vars, t_philo *philos, int i)
 {
-	pthread_mutex_destroy(&vars->time_lock);
+	while (i)
+	{
+		i--;
+		pthread_mutex_destroy(&philos[i].time_lock);
+	}
 	free_forks(vars);
 }
 

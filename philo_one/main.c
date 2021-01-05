@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 07:34:15 by thimovander   ########   odam.nl         */
+/*   Updated: 2021/01/05 08:04:45 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ int		check_philo_status(t_philo *philos, t_function_vars *vars)
 	stop = false;
 	while (i < (*vars).n_philos)
 	{
-		pthread_mutex_lock(&philos[i].vars->time_lock);
+		pthread_mutex_lock(&philos[i].time_lock);
 		if (gettime() - philos[i].last_eaten > vars->t_die)
 		{
 			check_death(vars, i, philos);
-			pthread_mutex_unlock(&philos[i].vars->time_lock);
+			pthread_mutex_unlock(&philos[i].time_lock);
 			stop = true;
 			break ;
 		}
-		pthread_mutex_unlock(&philos[i].vars->time_lock);
+		pthread_mutex_unlock(&philos[i].time_lock);
 		i++;
 	}
-	usleep(200);
+	usleep(100);
 	if (stop)
 		return (1);
 	return (0);
@@ -70,6 +70,3 @@ int		main(int argc, char **argv)
 	jointhreads(philos, vars.n_philos);
 	return (0);
 }
-
-
-// so a bunch of things go wrong, the most important is the fact that it goes on after dying

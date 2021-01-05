@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 07:34:39 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 08:11:09 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ int		create_forks(t_function_vars *vars)
 		pthread_mutex_destroy(&(*vars).dead_lock);
 		return (1);
 	}
-	if (pthread_mutex_init(&(*vars).time_lock, NULL) != 0)
-	{
-		pthread_mutex_destroy(&(*vars).time_lock);
-		return (1);
-	}
 	(*vars).isdead = false;
 	return (0);
 }
@@ -73,6 +68,11 @@ int		init_philo(t_function_vars *vars, t_philo *philos)
 		philos[i].last_eaten = vars->start_time;
 		philos[i].times_eaten = 0;
 		philos[i].vars = vars;
+		if (pthread_mutex_init(&philos[i].time_lock, NULL) != 0)
+		{
+			pthread_mutex_destroy(&philos[i].time_lock);
+			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -85,7 +85,7 @@ void	jointhreads(t_philo *philos, int i)
 		i--;
 		pthread_join(philos[i].thread, NULL);
 	}
-	free_time_lock(philos->vars);
+	free_time_lock(philos->vars, philos, i);
 }
 
 int		start_threads(t_function_vars *vars, t_philo *philos)
@@ -104,3 +104,6 @@ int		start_threads(t_function_vars *vars, t_philo *philos)
 	}
 	return (0);
 }
+
+// heeft iedere philo zijn eigen time_check lock nodig ?
+

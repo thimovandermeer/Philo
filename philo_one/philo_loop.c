@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 10:53:13 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 07:42:30 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	waitingfunction(unsigned int waitingtime)
 
 	starttime = gettime();
 	while ((gettime() - starttime) < waitingtime)
-		usleep(200);
+		usleep(100);
 }
 
 int		death_lock(t_philo *philo)
@@ -90,7 +90,7 @@ void	*philo_loop(void *phil_ptr)
 	left_fork = &philo->vars->forks[id];
 	right_fork = &philo->vars->forks[(id + 1) % philo->vars->n_philos];
 	if (id % 2)
-		usleep(200);
+		usleep(100);
 	i = 0;
 	while (i != philo->vars->a_eat)
 	{

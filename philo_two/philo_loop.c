@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 13:58:31 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 07:41:06 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	waitingfunction(unsigned int waitingtime)
 
 	starttime = gettime();
 	while ((gettime() - starttime) < waitingtime)
-		usleep(200);
+		usleep(100);
 }
 
 int		death_lock(t_philo *philo)
@@ -85,7 +85,7 @@ void	*philo_loop(void *phil_ptr)
 	philo = (t_philo*)phil_ptr;
 	id = philo->philo_num;
 	if (id % 2)
-		usleep(200);
+		usleep(100);
 	i = 0;
 	while (i != philo->vars->a_eat)
 	{

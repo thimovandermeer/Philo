@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 13:57:51 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 07:40:57 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		check_philo_status(t_philo *philos, t_function_vars *vars)
 		sem_post(philos[i].vars->time_lock);
 		i++;
 	}
-	usleep(500);
+	usleep(100);
 	if (stop)
 		return (1);
 	return (0);

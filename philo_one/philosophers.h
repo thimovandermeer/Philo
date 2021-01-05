@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/14 08:41:27 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 07:26:44 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 08:11:34 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct	s_function_vars
 	int					a_eat;
 	unsigned long		start_time;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		time_lock;
 	pthread_mutex_t		write_lock;
 	pthread_mutex_t		dead_lock;
 	bool				isdead;
@@ -36,11 +35,12 @@ typedef struct	s_function_vars
 
 typedef struct	s_philo
 {
-	int				philo_num;
-	long			last_eaten;
-	int				times_eaten;
-	pthread_t		thread;
-	t_function_vars	*vars;
+	int					philo_num;
+	long				last_eaten;
+	int					times_eaten;
+	pthread_t			thread;
+	pthread_mutex_t		time_lock;
+	t_function_vars		*vars;
 }				t_philo;
 
 /*
@@ -89,7 +89,7 @@ void			waitingfunction(unsigned int waitingtime);
 
 void			free_dead_lock(t_function_vars *vars);
 void			free_write_lock(t_function_vars *vars);
-void			free_time_lock(t_function_vars *vars);
+void			free_time_lock(t_function_vars *vars, t_philo *philos, int i);
 void			free_forks(t_function_vars *vars);
 void			free_philos(t_philo *philos);
 
