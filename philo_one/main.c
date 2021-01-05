@@ -6,12 +6,23 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 10:49:48 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 07:34:15 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "philosophers.h"
+
+void 	check_death(t_function_vars *vars, int i, t_philo *philos)
+{
+	if (philos[i].times_eaten != vars->a_eat)
+	{
+		write_lock(vars, i, "Has died");
+		pthread_mutex_lock(&vars->dead_lock);
+		(*vars).isdead = true;
+		pthread_mutex_unlock(&vars->dead_lock);
+	}
+}
 
 int		check_philo_status(t_philo *philos, t_function_vars *vars)
 {
@@ -23,23 +34,17 @@ int		check_philo_status(t_philo *philos, t_function_vars *vars)
 	while (i < (*vars).n_philos)
 	{
 		pthread_mutex_lock(&philos[i].vars->time_lock);
-		if (gettime() - philos[i].last_eaten > philos[i].vars->t_die)
+		if (gettime() - philos[i].last_eaten > vars->t_die)
 		{
-			if (philos[i].times_eaten != vars->a_eat)
-			{
-				write_lock(philos[i].vars, i, "Has died");
-				printf("isdead before = %d", (*vars).isdead);
-				(*vars).isdead = true;
-				printf("isdead after = %d", (*vars).isdead);
-				pthread_mutex_unlock(&philos[i].vars->time_lock);
-				stop = true;
-			}
+			check_death(vars, i, philos);
+			pthread_mutex_unlock(&philos[i].vars->time_lock);
+			stop = true;
 			break ;
 		}
 		pthread_mutex_unlock(&philos[i].vars->time_lock);
 		i++;
 	}
-	usleep(500);
+	usleep(200);
 	if (stop)
 		return (1);
 	return (0);
