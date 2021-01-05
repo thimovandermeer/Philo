@@ -6,11 +6,11 @@
 #    By: thvan-de <thvan-de@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/11/16 09:21:05 by jbennink      #+#    #+#                  #
-#    Updated: 2021/01/05 11:07:33 by thvan-de      ########   odam.nl          #
+#    Updated: 2021/01/05 11:09:13 by thvan-de      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo_two
+NAME = philo_three
 
 SRCS = 	create_philos.c \
 		main.c \
