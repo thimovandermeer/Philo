@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   validate_inputs.c                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
+/*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:07:36 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 09:06:54 by thimovander   ########   odam.nl         */
+/*   Updated: 2021/01/05 09:43:30 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ void	waitingfunction(unsigned int waitingtime)
 
 	starttime = gettime();
 	while ((gettime() - starttime) < waitingtime)
-		usleep(100);
+		usleep(200);
 }

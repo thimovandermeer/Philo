@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/23 13:56:05 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 09:41:18 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,19 @@ int		create_sems(t_function_vars *vars, t_philo *philos)
 
 	i = 0;
 	vars->forks = sem_open("forks", O_CREAT | O_EXCL, 0644, vars->n_philos);
-	if (vars->forks == SEM_FAILED)
-	{
-		free(philos);
-		return (1);
-	}
 	sem_unlink("forks");
 	vars->write_lock = sem_open("write_lock", O_CREAT | O_EXCL, 0644, 1);
-	if (vars->write_lock == SEM_FAILED)
-	{
-		free(philos);
-		return (1);
-	}
 	sem_unlink("write_lock");
 	vars->dead_lock = sem_open("dead_lock", O_CREAT | O_EXCL, 0644, 1);
-	if (vars->dead_lock == SEM_FAILED)
-	{
-		free(philos);
-		return (1);
-	}
 	sem_unlink("dead_lock");
 	vars->time_lock = sem_open("time_lock", O_CREAT | O_EXCL, 0644, 1);
-	if (vars->time_lock == SEM_FAILED)
+	sem_unlink("time_lock");
+	if (vars->time_lock == SEM_FAILED || vars->dead_lock == SEM_FAILED
+	|| vars->write_lock == SEM_FAILED || vars->forks == SEM_FAILED)
 	{
 		free(philos);
 		return (1);
 	}
-	sem_unlink("time_lock");
 	(*vars).isdead = false;
 	return (0);
 }

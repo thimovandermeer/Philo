@@ -6,12 +6,11 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 09:07:04 by thimovander   ########   odam.nl         */
+/*   Updated: 2021/01/05 09:42:15 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <stdio.h>
 
 void	write_lock(t_function_vars *vars, unsigned int id, char *str)
 {
@@ -76,7 +75,7 @@ void	*philo_loop(void *phil_ptr)
 	philo = (t_philo*)phil_ptr;
 	id = philo->philo_num;
 	if (id % 2)
-		usleep(100);
+		usleep(200);
 	i = 0;
 	while (i != philo->vars->a_eat)
 	{

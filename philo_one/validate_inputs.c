@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 09:08:12 by thimovander   ########   odam.nl         */
+/*   Updated: 2021/01/05 09:35:57 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ int		validate_inputs(int argc, char **input, t_function_vars *vars)
 		return (1);
 	}
 	set_philos(vars, input, argc);
-	printf("n_philos = %i\n", vars->t_sleep);
 	if (vars->n_philos < 0 || vars->t_die < 0 ||
 	vars->t_eat < 0 || vars->t_sleep < 0)
 	{
-		printf("kom ik hier?\n");
 		ft_putstr_fd("Error: please give positive inputs\n", 2);
 		return (1);
 	}
