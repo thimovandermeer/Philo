@@ -6,14 +6,13 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/11 11:21:16 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 08:04:45 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 09:09:13 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "philosophers.h"
 
-void 	check_death(t_function_vars *vars, int i, t_philo *philos)
+void	check_death(t_function_vars *vars, int i, t_philo *philos)
 {
 	if (philos[i].times_eaten != vars->a_eat)
 	{
@@ -44,7 +43,7 @@ int		check_philo_status(t_philo *philos, t_function_vars *vars)
 		pthread_mutex_unlock(&philos[i].time_lock);
 		i++;
 	}
-	usleep(100);
+	usleep(500);
 	if (stop)
 		return (1);
 	return (0);

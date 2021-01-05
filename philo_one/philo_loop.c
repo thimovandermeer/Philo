@@ -6,12 +6,11 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 07:42:30 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 09:09:28 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <stdio.h>
 
 void	write_lock(t_function_vars *vars, unsigned int id, char *str)
 {
@@ -40,10 +39,12 @@ void	eat_lock(t_philo *philo, pthread_mutex_t *left_fork,
 	write_lock(philo->vars, id, "Picked up left fork");
 	pthread_mutex_lock(right_fork);
 	write_lock(philo->vars, id, "Picked up right fork");
+	pthread_mutex_lock(&philo->time_lock);
 	philo->last_eaten = gettime();
+	pthread_mutex_unlock(&philo->time_lock);
 	philo->times_eaten++;
 	write_lock(philo->vars, id, "is eating");
-	waitingfunction(philo->vars->t_sleep);
+	waitingfunction(philo->vars->t_eat);
 	pthread_mutex_unlock(left_fork);
 	write_lock(philo->vars, id, "Dropped left fork");
 	pthread_mutex_unlock(right_fork);
@@ -54,15 +55,6 @@ void	sleep_lock(t_philo *philo, unsigned int id)
 {
 	write_lock(philo->vars, id, "is sleeping");
 	waitingfunction(philo->vars->t_sleep);
-}
-
-void	waitingfunction(unsigned int waitingtime)
-{
-	unsigned long starttime;
-
-	starttime = gettime();
-	while ((gettime() - starttime) < waitingtime)
-		usleep(100);
 }
 
 int		death_lock(t_philo *philo)
@@ -90,7 +82,7 @@ void	*philo_loop(void *phil_ptr)
 	left_fork = &philo->vars->forks[id];
 	right_fork = &philo->vars->forks[(id + 1) % philo->vars->n_philos];
 	if (id % 2)
-		usleep(100);
+		usleep(200);
 	i = 0;
 	while (i != philo->vars->a_eat)
 	{

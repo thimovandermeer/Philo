@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/14 08:41:27 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 08:11:34 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 09:31:28 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h> ///
 
 typedef struct	s_function_vars
 {
@@ -44,26 +43,22 @@ typedef struct	s_philo
 }				t_philo;
 
 /*
-* util functions
+** util functions
 */
 
-int				ft_isdigit(int c);
-int				ft_atoi(char *str);
-size_t			ft_strlen(const char *s);
-void			ft_putstr_fd(char *s, int fd);
-void			ft_putchar_fd(char c, int fd);
 long			gettime(void);
 void			ft_putnbr_fd(unsigned long n, int fd);
 
 /*
-* validate inputs
+** validate inputs
 */
 
 void			set_philos(t_function_vars *vars, char **input, int argc);
 int				validate_inputs(int argc, char **input, t_function_vars *vars);
+void			waitingfunction(unsigned int waitingtime);
 
 /*
-* create philo's
+** create philo's
 */
 
 int				create_philo(t_function_vars *vars, t_philo **philos);
@@ -72,7 +67,7 @@ int				init_philo(t_function_vars *vars, t_philo *philos);
 int				start_threads(t_function_vars *vars, t_philo *philos);
 void			jointhreads(t_philo *philos, int i);
 /*
-* philo_loop
+** philo_loop
 */
 
 void			write_lock(t_function_vars *vars,
@@ -81,10 +76,9 @@ void			eat_lock(t_philo *philo, pthread_mutex_t *left_fork,
 				pthread_mutex_t *right_fork, unsigned int id);
 void			sleep_lock(t_philo *philo, unsigned int id);
 void			*philo_loop(void *phil_ptr);
-void			waitingfunction(unsigned int waitingtime);
 
 /*
-* Free functions
+** Free functions
 */
 
 void			free_dead_lock(t_function_vars *vars);
@@ -93,4 +87,13 @@ void			free_time_lock(t_function_vars *vars, t_philo *philos, int i);
 void			free_forks(t_function_vars *vars);
 void			free_philos(t_philo *philos);
 
+/*
+** libft functions
+*/
+
+int				ft_isdigit(int c);
+int				ft_atoi(char *str);
+size_t			ft_strlen(const char *s);
+void			ft_putstr_fd(char *s, int fd);
+void			ft_putchar_fd(char c, int fd);
 #endif

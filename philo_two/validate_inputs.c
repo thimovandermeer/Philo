@@ -6,7 +6,7 @@
 /*   By: thimovandermeer <thimovandermeer@studen      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:07:36 by thimovander   #+#    #+#                 */
-/*   Updated: 2020/12/22 12:44:38 by thimovander   ########   odam.nl         */
+/*   Updated: 2021/01/05 09:06:54 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ int		validate_inputs(int argc, char **input, t_function_vars *vars)
 		return (1);
 	}
 	set_philos(vars, input, argc);
-	printf("n_philos = %i\n", vars->t_sleep);
-	if (vars->n_philos < 0 || vars->t_die < 0 || vars->t_eat < 0 || vars->t_sleep < 0)
+	if (vars->n_philos < 0 || vars->t_die < 0
+	|| vars->t_eat < 0 || vars->t_sleep < 0)
 	{
-		printf("kom ik hier?\n");
 		ft_putstr_fd("Error: please give positive inputs\n", 2);
 		return (1);
 	}
@@ -49,4 +48,13 @@ int		validate_inputs(int argc, char **input, t_function_vars *vars)
 		return (1);
 	}
 	return (0);
+}
+
+void	waitingfunction(unsigned int waitingtime)
+{
+	unsigned long starttime;
+
+	starttime = gettime();
+	while ((gettime() - starttime) < waitingtime)
+		usleep(100);
 }

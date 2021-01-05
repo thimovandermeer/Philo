@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 08:11:09 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 09:08:42 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,3 @@ int		start_threads(t_function_vars *vars, t_philo *philos)
 	}
 	return (0);
 }
-
-// heeft iedere philo zijn eigen time_check lock nodig ?
-

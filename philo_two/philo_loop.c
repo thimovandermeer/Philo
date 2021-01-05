@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 13:51:03 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 07:41:06 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/05 09:07:04 by thimovander   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	eat_lock(t_philo *philo, unsigned int id)
 	philo->last_eaten = gettime();
 	philo->times_eaten++;
 	write_lock(philo->vars, id, "is eating");
-	waitingfunction(philo->vars->t_sleep);
+	waitingfunction(philo->vars->t_eat);
 	sem_post(philo->vars->forks);
 	write_lock(philo->vars, id, "Dropped first fork");
 	sem_post(philo->vars->forks);
@@ -53,15 +53,6 @@ void	sleep_lock(t_philo *philo, unsigned int id)
 {
 	write_lock(philo->vars, id, "is sleeping");
 	waitingfunction(philo->vars->t_sleep);
-}
-
-void	waitingfunction(unsigned int waitingtime)
-{
-	unsigned long starttime;
-
-	starttime = gettime();
-	while ((gettime() - starttime) < waitingtime)
-		usleep(100);
 }
 
 int		death_lock(t_philo *philo)

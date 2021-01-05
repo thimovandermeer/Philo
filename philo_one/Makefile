@@ -6,7 +6,7 @@
 #    By: thvan-de <thvan-de@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/11/16 09:21:05 by jbennink      #+#    #+#                  #
-#    Updated: 2020/12/23 10:57:16 by thvan-de      ########   odam.nl          #
+#    Updated: 2021/01/05 09:30:18 by thvan-de      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRCS = 	create_philos.c \
 		philo_loop.c \
 		utils.c \
 		validate_inputs.c \
-		free_functions.c
+		free_functions.c \
+		libft_func.c
 
 OBJS = $(SRCS:.c=.o)
 
