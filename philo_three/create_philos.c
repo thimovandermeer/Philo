@@ -6,7 +6,7 @@
 /*   By: thvan-de <thvan-de@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/12/21 08:08:29 by thimovander   #+#    #+#                 */
-/*   Updated: 2021/01/05 15:41:11 by thvan-de      ########   odam.nl         */
+/*   Updated: 2021/01/06 10:40:04 by thvan-de      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int		init_philo(t_function_vars *vars, t_philo *philos)
 
 int		check_philo(t_philo philo)
 {
+	bool stop;
+
+	stop = false;
 	sem_wait(philo.dead_lock);
 	if (gettime() - philo.last_eaten > philo.vars->t_die)
 	{
@@ -57,10 +60,11 @@ int		check_philo(t_philo philo)
 			philo.vars->isdead = true;
 			exit(1);
 		}
+		stop = true;
 	}
 	sem_post(philo.dead_lock);
 	usleep(200);
-	if (philo.vars->isdead == true)
+	if (stop)
 		return (1);
 	return (0);
 }
